@@ -3,6 +3,7 @@ package com.machinemode.flickrwidget;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import com.machinemode.flickrwidget.client.RequestPhotoList;
 import com.machinemode.flickrwidget.client.RequestPhotoList.TaskCompleteListener;
@@ -67,20 +68,20 @@ public class WidgetUpdateService extends Service implements TaskCompleteListener
         for(int id : appWidgetIds)
         {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget);
-            views.setTextViewText(R.id.updateCounter, String.valueOf(updateCount++));
-
+           
             if(!photoList.isEmpty())
             {
-                Photo photo = photoList.get(0);
+            	Random rand = new Random();
+                Photo photo = photoList.get(rand.nextInt(5));
 
                 Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(photo.getUrl()));
                 browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
 
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, browserIntent, 0);
                 views.setOnClickPendingIntent(R.id.widget, pendingIntent);
-
+                
                 views.setImageViewUri(R.id.thumbnail, photo.getBitmapUri());
-                views.setTextViewText(R.id.title, photo.getTitle());
+                views.setTextViewText(R.id.title, photo.getTitle() + " by " + photo.getOwner());
                 views.setViewVisibility(R.id.progressBarWrapper, View.INVISIBLE);
                 
                 Log.i(TAG, photo.toString());
