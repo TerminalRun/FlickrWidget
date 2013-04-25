@@ -107,7 +107,7 @@ public class WidgetUpdateService extends Service implements TaskCompleteListener
         Date date = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.add(Calendar.DATE, -1);
+        calendar.add(Calendar.DATE, -4);
         params.setDate(calendar.getTime());
 
         return Request.buildRequest(uri, api_key, format, params);
